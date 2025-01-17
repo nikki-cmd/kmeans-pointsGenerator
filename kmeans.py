@@ -28,6 +28,7 @@ def k_means_cluster(k, c1, c2, c3, points):
         centroids = new_centroids'''
         
         #if converged:
+        
         return clusters
 
 def dist(point, centroid):

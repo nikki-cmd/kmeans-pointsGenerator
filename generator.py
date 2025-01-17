@@ -11,6 +11,26 @@ class Point:
 	def dist(self, point):
 		return np.sqrt((self.x - point.x)**2 + (self.y - point.y)**2)
 
+def print_clusters(screen, cluster0, cluster1, cluster2, radius):
+    for pos in cluster0:
+        if pos:
+            coords = tuple(pos)
+            print('1', coords)
+            pygame.draw.circle(screen, "red", coords, radius)
+            
+    for pos in cluster1:
+        if pos:
+            coords = tuple(pos)
+            print('2', coords)
+            pygame.draw.circle(screen, "green", coords, radius)
+            
+    for pos in cluster2:
+        if pos:
+            coords = tuple(pos)
+            print('3', coords)
+            pygame.draw.circle(screen, "blue", coords, radius)
+    
+    pygame.display.update()
 
 pygame.init()
 screen = pygame.display.set_mode((600, 400))
@@ -68,10 +88,44 @@ while True:
             pos = event.pos
             pygame.draw.circle(screen, "black", pos, radius)
             pygame.display.update()
-            
             unstaged_points.append(pos)
+            
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 clusters = k_means_cluster(3, pos1, pos2, pos3, unstaged_points)
-                print('clusters:', clusters)
+                
+                cluster1.append(clusters[0])
+                cluster2.append(clusters[1])
+                cluster3.append(clusters[2])
+                
+                screen.fill((255,255,255))
+                pygame.display.update()
+                
+                '''if len(clusters[0]) != 0:
+                    for i in range(0, len(cluster1)):
+                        pos = tuple(cluster1[i])
+                        if pos:
+                            print(pos)
+                            pygame.draw.circle(screen, "red", pos, radius)
+                
+                if len(clusters[1]) != 0:
+                    for i in range(0, len(cluster2)):
+                        pos = tuple(cluster2[i])
+                        if pos:
+                            print(pos)
+                            pygame.draw.circle(screen, "green", pos, radius)
+                
+                if len(clusters[2]) != 0:
+                    for i in range(0, len(cluster3)):
+                        pos = tuple(cluster3[i])
+                        if pos:
+                            print(pos)
+                            pygame.draw.circle(screen, "blue", pos, radius)'''
+                
+                print_clusters(screen, cluster1, cluster2, cluster3, radius)
+                
+                pygame.display.update()
+                
+                clusters = []
+                unstaged_points = []
             
