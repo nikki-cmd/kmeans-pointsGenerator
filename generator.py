@@ -21,13 +21,11 @@ def print_clusters(screen, cluster0, cluster1, cluster2, radius):
     for pos in cluster1:
         if pos:
             coords = tuple(pos)
-            print('2', coords)
             pygame.draw.circle(screen, "green", coords, radius)
             
     for pos in cluster2:
         if pos:
             coords = tuple(pos)
-            print('3', coords)
             pygame.draw.circle(screen, "blue", coords, radius)
     
     pygame.display.update()
@@ -101,8 +99,6 @@ while True:
                     
                 for p in clusters[2]:
                     cluster3.append(p)
-                
-                print(cluster1)
                 
                 screen.fill((255,255,255))
                 pygame.display.update()
