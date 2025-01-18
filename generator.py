@@ -1,3 +1,4 @@
+#программа распозновая чисел(отделять цифры друг от друга с помощью алгоритмов)
 import pygame
 import random
 from kmeans import k_means_cluster
@@ -15,7 +16,6 @@ def print_clusters(screen, cluster0, cluster1, cluster2, radius):
     for pos in cluster0:
         if pos:
             coords = tuple(pos)
-            print('1', coords)
             pygame.draw.circle(screen, "red", coords, radius)
             
     for pos in cluster1:
@@ -60,8 +60,7 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
-            
-            
+              
         if not generated:
             for i in range(0, 20):
                 new_point = [pos1[0] + random.randint(-30, 30), pos1[1] + random.randint(-30, 30)]
@@ -94,9 +93,16 @@ while True:
             if event.key == pygame.K_SPACE:
                 clusters = k_means_cluster(3, pos1, pos2, pos3, unstaged_points)
                 
-                cluster1.append(clusters[0])
-                cluster2.append(clusters[1])
-                cluster3.append(clusters[2])
+                for p in clusters[0]:
+                    cluster1.append(list(p))
+                    
+                for p in clusters[1]:
+                    cluster2.append(p)
+                    
+                for p in clusters[2]:
+                    cluster3.append(p)
+                
+                print(cluster1)
                 
                 screen.fill((255,255,255))
                 pygame.display.update()
