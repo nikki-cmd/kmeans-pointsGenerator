@@ -16,7 +16,7 @@ def generate_core():
     generated = False
     
     while not generated:
-        if dist(pos1, pos2) < 100 or dist(pos2, pos3) < 100 or dist(pos1, pos3) < 100:
+        if dist(pos1, pos2) < 200 and dist(pos2, pos3) < 200 and dist(pos1, pos3) < 200:
             pos1 = [random.randint(0, 600), random.randint(0, 400)]
             pos2 = [random.randint(0, 600), random.randint(0, 400)]
             pos3 = [random.randint(0, 600), random.randint(0, 400)]
@@ -41,13 +41,13 @@ def print_clusters(screen, cluster0, cluster1, cluster2, radius):
             pygame.draw.circle(screen, "blue", coords, radius)
     
     coords = calculate_centroid(cluster0)
-    pygame.draw.circle(screen, "black", coords, radius)
+    pygame.draw.circle(screen, "brown", coords, radius)
     
     coords = calculate_centroid(cluster1)
-    pygame.draw.circle(screen, "black", coords, radius)
+    pygame.draw.circle(screen, "brown", coords, radius)
     
     coords = calculate_centroid(cluster2)
-    pygame.draw.circle(screen, "black", coords, radius)
+    pygame.draw.circle(screen, "brown", coords, radius)
     
     pygame.display.update()
 
@@ -62,7 +62,6 @@ points = []
 
 new_points = []
 
-print(generate_core())
 pos1 = generate_core()[0]
 pos2 = generate_core()[1]
 pos3 = generate_core()[2]
