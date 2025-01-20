@@ -1,7 +1,7 @@
 #программа распозновая чисел(отделять цифры друг от друга с помощью алгоритмов)
 import pygame
 import random
-from kmeans import k_means_cluster
+from kmeans import k_means_cluster, calculate_centroid
 import matplotlib.pyplot as plt
 
 class Point:
@@ -28,6 +28,15 @@ def print_clusters(screen, cluster0, cluster1, cluster2, radius):
             coords = tuple(pos)
             pygame.draw.circle(screen, "blue", coords, radius)
     
+    coords = calculate_centroid(cluster0)
+    pygame.draw.circle(screen, "black", coords, radius)
+    
+    coords = calculate_centroid(cluster1)
+    pygame.draw.circle(screen, "black", coords, radius)
+    
+    coords = calculate_centroid(cluster2)
+    pygame.draw.circle(screen, "black", coords, radius)
+    
     pygame.display.update()
 
 pygame.init()
@@ -53,34 +62,33 @@ cluster3 = []
 unstaged_points = []
 
 generated = False
+
+for i in range(0, 20):
+    new_point = [pos1[0] + random.randint(-30, 30), pos1[1] + random.randint(-30, 30)]
+    points.append(Point(new_point[0], new_point[1]))
+    pygame.draw.circle(screen, "red", new_point, radius)
+    cluster1.append(new_point)
+
+for i in range(0, 20):
+    new_point = [pos2[0] + random.randint(-30, 30), pos2[1] + random.randint(-30, 30)]
+    points.append(Point(new_point[0], new_point[1]))
+    pygame.draw.circle(screen, "green", new_point, radius)
+    cluster2.append(new_point)
+                
+for i in range(0, 20):
+    new_point = [pos3[0] + random.randint(-30, 30), pos3[1] + random.randint(-30, 30)]
+    points.append(Point(new_point[0], new_point[1]))
+    pygame.draw.circle(screen, "blue", new_point, radius)
+    cluster3.append(new_point)
+    
+pygame.display.update()   
+            
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
-              
-        if not generated:
-            for i in range(0, 20):
-                new_point = [pos1[0] + random.randint(-30, 30), pos1[1] + random.randint(-30, 30)]
-                points.append(Point(new_point[0], new_point[1]))
-                pygame.draw.circle(screen, "red", new_point, radius)
-                cluster1.append(new_point)
 
-            for i in range(0, 20):
-                new_point = [pos2[0] + random.randint(-30, 30), pos2[1] + random.randint(-30, 30)]
-                points.append(Point(new_point[0], new_point[1]))
-                pygame.draw.circle(screen, "green", new_point, radius)
-                cluster2.append(new_point)
-                
-            for i in range(0, 20):
-                new_point = [pos3[0] + random.randint(-30, 30), pos3[1] + random.randint(-30, 30)]
-                points.append(Point(new_point[0], new_point[1]))
-                pygame.draw.circle(screen, "blue", new_point, radius)
-                cluster3.append(new_point)
-            generated = True
-                
-            pygame.display.update()
-        
         if event.type == pygame.MOUSEBUTTONDOWN:
             pos = event.pos
             pygame.draw.circle(screen, "black", pos, radius)
@@ -89,8 +97,11 @@ while True:
             
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                clusters = k_means_cluster(3, pos1, pos2, pos3, unstaged_points)
-                
+                c1 = calculate_centroid(cluster1)
+                c2 = calculate_centroid(cluster2)
+                c3 = calculate_centroid(cluster3)
+                clusters = k_means_cluster(3, c1, c2, c3, unstaged_points, cluster1, cluster2, cluster3)
+                print("got clusters")
                 for p in clusters[0]:
                     cluster1.append(list(p))
                     
@@ -100,30 +111,10 @@ while True:
                 for p in clusters[2]:
                     cluster3.append(p)
                 
+                print("updated clusters")
+                
                 screen.fill((255,255,255))
                 pygame.display.update()
-                
-                '''if len(clusters[0]) != 0:
-                    for i in range(0, len(cluster1)):
-                        pos = tuple(cluster1[i])
-                        if pos:
-                            print(pos)
-                            pygame.draw.circle(screen, "red", pos, radius)
-                
-                if len(clusters[1]) != 0:
-                    for i in range(0, len(cluster2)):
-                        pos = tuple(cluster2[i])
-                        if pos:
-                            print(pos)
-                            pygame.draw.circle(screen, "green", pos, radius)
-                
-                if len(clusters[2]) != 0:
-                    for i in range(0, len(cluster3)):
-                        pos = tuple(cluster3[i])
-                        if pos:
-                            print(pos)
-                            pygame.draw.circle(screen, "blue", pos, radius)'''
-                
                 print_clusters(screen, cluster1, cluster2, cluster3, radius)
                 
                 pygame.display.update()
