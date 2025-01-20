@@ -108,6 +108,9 @@ while True:
             
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
+                unstaged_points += cluster1
+                unstaged_points += cluster2
+                unstaged_points += cluster3
                 c1 = calculate_centroid(cluster1)
                 c2 = calculate_centroid(cluster2)
                 c3 = calculate_centroid(cluster3)
