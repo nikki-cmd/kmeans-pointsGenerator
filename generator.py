@@ -1,4 +1,3 @@
-#программа распозновая чисел(отделять цифры друг от друга с помощью алгоритмов)
 import pygame
 import random
 from kmeans import k_means_cluster, calculate_centroid
@@ -8,9 +7,6 @@ class Point:
 	def __init__(self, x, y):
 		self.x = x
 		self.y = y
-
-	def dist(self, point):
-		return np.sqrt((self.x - point.x)**2 + (self.y - point.y)**2)
 
 def print_clusters(screen, cluster0, cluster1, cluster2, radius):
     for pos in cluster0:
@@ -101,7 +97,6 @@ while True:
                 c2 = calculate_centroid(cluster2)
                 c3 = calculate_centroid(cluster3)
                 clusters = k_means_cluster(3, c1, c2, c3, unstaged_points, cluster1, cluster2, cluster3)
-                print("got clusters")
                 for p in clusters[0]:
                     cluster1.append(list(p))
                     
@@ -110,8 +105,6 @@ while True:
                     
                 for p in clusters[2]:
                     cluster3.append(p)
-                
-                print("updated clusters")
                 
                 screen.fill((255,255,255))
                 pygame.display.update()
