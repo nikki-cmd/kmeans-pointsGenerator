@@ -1,12 +1,28 @@
 import pygame
 import random
-from kmeans import k_means_cluster, calculate_centroid
+from kmeans import k_means_cluster, calculate_centroid, dist
 import matplotlib.pyplot as plt
 
 class Point:
 	def __init__(self, x, y):
 		self.x = x
 		self.y = y
+  
+def generate_core():
+    pos1 = [random.randint(0, 600), random.randint(0, 400)]
+    pos2 = [random.randint(0, 600), random.randint(0, 400)]
+    pos3 = [random.randint(0, 600), random.randint(0, 400)]
+    
+    generated = False
+    
+    while not generated:
+        if dist(pos1, pos2) < 100 or dist(pos2, pos3) < 100 or dist(pos1, pos3) < 100:
+            pos1 = [random.randint(0, 600), random.randint(0, 400)]
+            pos2 = [random.randint(0, 600), random.randint(0, 400)]
+            pos3 = [random.randint(0, 600), random.randint(0, 400)]
+        else:
+            return [pos1, pos2, pos3]
+
 
 def print_clusters(screen, cluster0, cluster1, cluster2, radius):
     for pos in cluster0:
@@ -46,10 +62,10 @@ points = []
 
 new_points = []
 
-
-pos1 = [80, 50]
-pos2 = [500, 300]
-pos3 = [60, 330]
+print(generate_core())
+pos1 = generate_core()[0]
+pos2 = generate_core()[1]
+pos3 = generate_core()[2]
 
 cluster1 = []
 cluster2 = []
