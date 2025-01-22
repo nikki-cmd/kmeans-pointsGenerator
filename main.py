@@ -44,17 +44,7 @@ def generate_core():
     return pos
 
 
-def print_clusters(screen, cluster, radius):
-    colors =  ['blue', 'cyan', 'gold', 'gray', 'green', 'orange', 'purple', 'red', 'violet', 'yellow']
-    color = colors[random.randint(0, len(colors)- 1)]
-    for pos in cluster:
-        if pos:
-            coords = tuple(pos)
-            pygame.draw.circle(screen, color, coords, radius)
-    
-    pygame.display.update()
-
-def print_final_clusters(screen, clusters, radius):
+def print_clusters(screen, clusters, radius):
     colors =  [(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), 255) for _ in range(len(clusters))]
     for i in range(0, len(clusters)):
         for pos in clusters[i]:
@@ -81,7 +71,10 @@ list_points = []
 for i in range(0, len(cores)):
     list_points += generate_points(cores[i])
 
-print_clusters(screen, list_points, radius)
+for point in list_points:
+    pygame.draw.circle(screen, "black", tuple(point), radius)
+    
+pygame.display.update()
 
 unstaged_points = list_points
 
@@ -106,8 +99,8 @@ while True:
                 for k in range(1, len(unstaged_points)):
                     clusters = k_means_cluster(k, unstaged_points)
                     screen.fill((255,255,255))
+                    print_clusters(screen, clusters, radius)
                     for cluster in clusters:
-                        print_clusters(screen, cluster, radius)
                         print_centroid(screen, calculate_centroid(cluster), radius)
                     #time.sleep(1)            
                     f_logs += [[k, calc_wcss(clusters)]]
@@ -126,7 +119,7 @@ while True:
                 clusters = k_means_cluster(optimal_klusters, unstaged_points)
                 screen.fill((255,255,255))
                 
-                print_final_clusters(screen, clusters, radius)
+                print_clusters(screen, clusters, radius)
                 print(f'clusters expected:{expected_clusters} got clusters:{optimal_klusters}')
                 
             
