@@ -55,8 +55,7 @@ def print_clusters(screen, cluster, radius):
     pygame.display.update()
 
 def print_final_clusters(screen, clusters, radius):
-    colors =  ['blue', 'cyan', 'gold', 'gray', 'green', 'orange', 'purple', 'red', 'violet', 'yellow']
-    colors = colors[:len(clusters)]
+    colors =  [(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), 255) for _ in range(len(clusters))]
     for i in range(0, len(clusters)):
         for pos in clusters[i]:
             if pos:
